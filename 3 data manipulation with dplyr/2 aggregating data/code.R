@@ -7,7 +7,7 @@ library(here)
 # dataset -----------------------------------------------------------------
 
 # ubicación de la base de datos
-  hereds <- here("3 data manipulation with dplyr", "2 aggregating data", "counties.rds")
+  hereds <- here("3 data manipulation with dplyr", "counties.rds")
 
 # cargando la base de datos
   counties_selected <- readRDS(hereds) %>%
