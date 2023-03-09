@@ -16,3 +16,4 @@
 ## Historial de versiones
 
 * v3.3.0-RELEASE
+* v3.4.0-WORKING
