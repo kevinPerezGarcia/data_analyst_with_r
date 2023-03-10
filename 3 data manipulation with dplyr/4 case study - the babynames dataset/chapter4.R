@@ -7,7 +7,9 @@ library(here)
 
 # dataset -----------------------------------------------------------------
 
-hereds <- here("3 data manipulation with dplyr", "babynames.rds")
+hereds <- here("3 data manipulation with dplyr",
+               "4 case study - the babynames dataset",
+               "babynames.rds")
 babynames <- readRDS(hereds)
 
 # filtering and arranging for one year ------------------------------------
