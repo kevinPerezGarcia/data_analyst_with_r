@@ -1,0 +1,8 @@
+---
+title: "Aesthetics"
+author: "Kevin Perez Garcia"
+format: html
+toc: TRUE
+editor: visual
+---
+
