@@ -40,3 +40,7 @@ vignettes/*.pdf
 
 # pdf files
 /*.pdf
+
+# files and directories created by quarto
+*/*_files
+*/*.html
