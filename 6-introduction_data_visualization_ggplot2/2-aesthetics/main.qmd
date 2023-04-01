@@ -12,6 +12,7 @@ Aesthetic mappings are the cornerstone of the grammar of graphics plotting conce
 library(ggplot2)
 data(mtcars)
 fcyl <- factor(mtcars$cyl)
+fam <- factor(mtcars$am)
 ```
 
 
@@ -117,3 +118,82 @@ plt_mpg_vs_wt +
 :::{.callout-note}
 Label and shape are only applicable to categorical data.
 :::
+
+# Using attributes
+
+## All about attributes: color, shape, size and alpha
+This time you'll use these arguments to set attributes of the plot, not map variables onto aesthetics.
+
+You can specify colors in R using hex codes: a hash followed by two hexadecimal numbers each for red, green, and blue ("#RRGGBB"). Hexadecimal is base-16 counting. You have 0 to 9, and A representing 10 up to F representing 15. Pairs of hexadecimal numbers give you a range from 0 to 255. "#000000" is "black" (no color), "#FFFFFF" means "white", and `"#00FFFF" is cyan (mixed green and blue).
+
+A hexadecimal color variable, my_blue has been defined for you.
+```{r}
+# A hexadecimal color
+my_blue <- "#4ABEFF"
+```
+1. Set the point color to my_blue and the alpha to 0.6.
+```{r}
+ggplot(mtcars, aes(wt, mpg)) +
+  # Set the point color and alpha
+  geom_point(color=my_blue, alpha=0.6)
+```
+2. Change the color mapping to a fill mapping. That is, fcyl should be mapped onto fill. Set the color of the points to my_blue, point size to 10 and the point shape to 1.
+```{r}
+# Change the color mapping to a fill mapping
+ggplot(mtcars, aes(wt, mpg, fill=fcyl)) +
+  # Set point size and shape
+  geom_point(color=my_blue, size=10, shape=1)
+```
+## All about attributes: conflicts with aesthetics
+In the videos you saw that you can use all the aesthetics as attributes. Let's see how this works with the aesthetics you used in the previous exercises: x, y, color, fill, size, alpha, label and shape.
+
+In this exercise you will set all kinds of attributes of the points!
+
+You will continue to work with mtcars.
+
+1. Add a point layer, setting alpha, the transparency, to 0.5.
+```{r}
+ggplot(mtcars, aes(wt, mpg, color=fcyl)) +
+  # Add point layer with alpha 0.5
+  geom_point(alpha=0.5)
+```
+2. Add a text layer, setting the label to the rownames of the dataset mtcars, and the color to "red".
+```{r}
+ggplot(mtcars, aes(wt, mpg, color = fcyl)) +
+  # Add text layer with label rownames(mtcars) and color red
+  geom_text(label=rownames(mtcars), color="red")
+```
+3. Add a point layer, setting the shape to 24 and the color to "yellow".
+```{r}
+ggplot(mtcars, aes(wt, mpg, color=fcyl)) +
+  # Add points layer with shape 24 and color yellow
+  geom_point(shape=24, color="yellow")
+```
+## Going all out
+In this exercise, you will gradually add more aesthetics layers to the plot. You're still working with the mtcars dataset, but this time you're using more features of the cars. Each of the columns is described on the [mtcars](https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/mtcars) help page. Columns fcyl and fam have been added (as before) as categorical versions of cyl and am respectively.
+
+Notice that adding more aesthetic mappings to your plot is not always a good idea! You may just increase complexity and decrease readability.
+
+1. Use mtcars to draw a plot of qsec vs. mpg, colored by fcyl. Add a point layer.
+```{r}
+# 3 aesthetics: qsec vs. mpg clored by fcyl
+ggplot(mtcars, aes(mpg, qsec, color=fcyl)) +
+  geom_point()
+```
+2. Add another aesthetic: map fam onto shape.
+```{r}
+# 4 aesthetics: add a mapping of shape to fam
+ggplot(mtcars, aes(mpg, qsec, color=fcyl, shape = fam)) +
+  geom_point()
+```
+3. Add another two aesthetics: map hp divided by wt onto size.
+```{r}
+# 5 aesthetics: add a mapping of size to hp/wt
+ggplot(mtcars, aes(mpg, qsec, color = fcyl, shape = fam, size = hp / wt)) +
+  geom_point()
+```
+:::{.callout-note}
+Between the x and y dimensions, the color, shape, and size of the points, your plot displays five dimensions of the dataset!
+:::
+
+# Modifying aesthetics
