@@ -197,3 +197,67 @@ Between the x and y dimensions, the color, shape, and size of the points, your p
 :::
 
 # Modifying aesthetics
+
+## Updating aesthetic labels
+In this exercise, you'll modify some aesthetics to make a bar plot of the number of cylinders for cars with different types of transmission.
+
+You'll also make use of some functions for improving the appearance of the plot.
+
+* `labs()` to set the x- and y-axis labels. It takes strings for each argument.
+* `scale_fill_manual()` defines properties of the color scale (i.e. axis). The first argument sets the legend title. values is a named vector of colors to use.
+
+1. Set the x-axis label to "Number of Cylinders", and the y-axis label to "Count" using the x and y arguments of labs(), respectively.
+```{r}
+ggplot(mtcars, aes(fcyl, fill = fam)) +
+  geom_bar() +
+  # Set the axis labels
+  labs(x = "Number of cylinders", y = "Count")
+```
+2. Implement a custom fill color scale using scale_fill_manual(). Set the first argument to "Transmission", and values to palette.
+```{r}
+palette <- c(automatic = "#377EB8", manual = "#E41A1C")
+
+# Set the position
+ggplot(mtcars, aes(fcyl, fill = fam)) +
+  geom_bar() +
+  labs(x = "Number of Cylinders", y = "Count")
+  # Set the fill color scale
+  scale_fill_manual("Transmission", values = palette)
+```
+3. Modify the code to set the position to dodge so that the bars for transmissions are displayed side by side.
+```{r}
+palette <- c(automatic = "#377EB8", manual = "#E41A1C")
+
+# Set the position
+ggplot(mtcars, aes(fcyl, fill = fam)) +
+  geom_bar(position = "dodge") +
+  labs(x = "Number of Cylinders", y = "Count")
+  scale_fill_manual("Transmission", values = palette)
+```
+
+## Setting a dummy aesthetic
+In the last chapter you saw that all the visible aesthetics can serve as attributes and aesthetics, but I very conveniently left out x and y. That's because although you can make univariate plots (such as histograms, which you'll get to in the next chapter), a y-axis will always be provided, even if you didn't ask for it.
+
+You can make univariate plots in ggplot2, but you will need to add a fake y axis by mapping y to zero.
+
+When using setting y-axis limits, you can specify the limits as separate arguments, or as a single numeric vector. That is, ylim(lo, hi) or ylim(c(lo, hi)).
+
+1. Using mtcars, plot 0 vs. mpg. Make a scatter plot and add "jitter" to it.
+```{r}
+# Plot 0 vs. mpg
+ggplot(mtcars, aes(mpg, 0)) +
+  geom_point(position = "jitter")
+```
+2. Use ylim() to set the limits on the y-axis from -2 to 2.
+```{r}
+ggplot(mtcars, aes(mpg, 0)) +
+  geom_jitter() +
+  # Set the y-axis limits
+  ylim(-2,2)
+```
+# Aesthetics best practices
+
+## Appropriate mappings
+Incorrect aesthetic mapping causes confusion or misleads the audience.
+
+Typically, the dependent variable is mapped onto the the y-axis and the independent variable is mapped onto the x-axis.
