@@ -6,3 +6,114 @@ toc: TRUE
 editor: visual
 ---
 
+Aesthetic mappings are the cornerstone of the grammar of graphics plotting concept. This is where the magic happens - converting continuous and categorical data into visual scales that provide access to a large amount of information in a very short time. In this chapter you’ll understand how to choose the best aesthetic mappings for your data.
+
+```{r}
+library(ggplot2)
+data(mtcars)
+fcyl <- factor(mtcars$cyl)
+```
+
+
+# Visible aesthetics
+
+## All about aesthetics: color, shape and size
+In the video you saw 9 visible aesthetics. Let's apply them to a categorical variable — the cylinders in mtcars, cyl.
+
+These are the aesthetics you can consider within aes() in this chapter: x, y, color, fill, size, alpha, labels and shape.
+
+One common convention is that you don't name the x and y arguments to aes(), since they almost always come first, but you do name other arguments.
+
+In the following exercise the fcyl column is categorical. It is cyl transformed into a factor.
+
+```{r}
+# Map x to mpg and y to fcyl
+ggplot(mtcars, aes(mpg, fcyl)) +
+  geom_point()
+```
+
+```{r}
+# Swap mpg and fcyl
+ggplot(mtcars, aes(fcyl, mpg)) +
+  geom_point()
+```
+
+```{r}
+# Map x to wt, y to mpg and color to fcyl
+ggplot(mtcars, aes(wt, mpg, color=fcyl)) +
+  geom_point()
+```
+```{r}
+ggplot(mtcars, aes(wt, mpg, color = fcyl)) +
+  # Set the shape and size of the points
+  geom_point(shape=1, size=4)
+```
+## All about aesthetics: color vs. fill
+Typically, the color aesthetic changes the outline of a geom and the fill aesthetic changes the inside. geom_point() is an exception: you use color (not fill) for the point color. However, some shapes have special behavior.
+
+The default geom_point() uses shape = 19: a solid circle. An alternative is shape = 21: a circle that allow you to use both fill for the inside and color for the outline. This is lets you to map two aesthetics to each point.
+
+All shape values are described on the [points()](https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/points) help page.
+
+fcyl and fam are the cyl and am columns converted to factors, respectively.
+```{r}
+fam <- factor(mtcars$am)
+```
+Change the aesthetics so that fcyl maps to fill rather than color.
+```{r}
+# Map fcyl to fill
+ggplot(mtcars, aes(wt, mpg, fill = fcyl)) +
+  geom_point(shape = 1, size = 4)
+```
+In geom_point() change the shape argument to 21 and add an alpha argument set to 0.6.
+```{r}
+ggplot(mtcars, aes(wt, mpg, fill = fcyl)) +
+  # Change point shape; set alpha
+  geom_point(shape = 21, size = 4, alpha = 0.6)
+```
+In the ggplot() aesthetics, map fam to color.
+```{r}
+# Map color to fam
+ggplot(mtcars, aes(wt, mpg, fill = fcyl, color=fam)) +
+  geom_point(shape = 21, size = 4, alpha = 0.6)
+```
+
+Notice that mapping a categorical variable onto fill doesn't change the colors, although a legend is generated! This is because the default shape for points only has a color attribute and not a fill attribute! Use fill when you have another shape (such as a bar), or when using a point that does have a fill and a color attribute, such as shape = 21, which is a circle with an outline. Any time you use a solid color, make sure to use alpha blending to account for over plotting.
+
+## All about aesthetics: comparing aesthetics
+Now that you've got some practice with using attributes, be careful of a major pitfall: these attributes can overwrite the aesthetics of your plot!
+
+* Using mtcars, create a plot base layer, plt_mpg_vs_wt. Map mpg onto y and wt onto x.
+```{r}
+# Establish the base layer
+plt_mpg_vs_wt <- ggplot(mtcars, aes(wt, mpg))
+```
+
+* Add a point layer, mapping the categorical no. of cylinders, fcyl, onto size.
+```{r}
+# Map fcyl to size
+plt_mpg_vs_wt +
+  geom_point(aes(size = fcyl))
+```
+Change the mapping. This time fcyl should be mapped onto alpha.
+```{r}
+# Map fcyl to alpha, not size
+plt_mpg_vs_wt +
+  geom_point(aes(alpha = fcyl))
+```
+Change the mapping again. This time fcyl should be mapped onto shape.
+```{r}
+# Map fcyl to shape, not alpha
+plt_mpg_vs_wt +
+  geom_point(aes(shape = fcyl))
+```
+Swap the geom layer: change points to text.
+Change the mapping again. This time fcyl should be mapped onto label.
+```{r}
+# Use text layer and map fcyl to label
+plt_mpg_vs_wt +
+  geom_text(aes(label = fcyl))
+```
+:::{.callout-note}
+Label and shape are only applicable to categorical data.
+:::
